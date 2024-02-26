@@ -1,21 +1,26 @@
 package top.bytesc.crudstart.controller;
 
+import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.bytesc.crudstart.models.Result;
 import top.bytesc.crudstart.models.User;
 import top.bytesc.crudstart.services.UserService;
+import top.bytesc.crudstart.utils.Md5Util;
 
 @RestController
 @RequestMapping("/user")
+@Validated
 public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/register")
-    public Result register(String username, String pwd){
+    @PostMapping("/add")
+    public Result add(@Pattern(regexp="^\\S{5,16}$") String username,
+                      @Pattern(regexp="^\\S{5,16}$") String pwd){
         // 查询用户
         User user = userService.findUserByName(username);
         //添加
@@ -24,6 +29,20 @@ public class UserController {
             return Result.success();
         }else{
             return Result.error("username had been used");
+        }
+    }
+
+    @PostMapping("/login")
+    public Result<String> login(@Pattern(regexp="^\\S{5,16}$") String username,
+                                @Pattern(regexp="^\\S{5,16}$") String pwd){
+        // 查询用户
+        User user = userService.findUserByName(username);
+        if(user==null){
+            return Result.error("username does not exist");
+        }else if(Md5Util.getMD5String(pwd).equals(user.getPassword())){
+            return Result.success("token");
+        }else{
+            return Result.error("pwd wrong");
         }
     }
 }
