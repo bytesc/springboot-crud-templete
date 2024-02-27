@@ -9,7 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 import top.bytesc.crudstart.models.Result;
 import top.bytesc.crudstart.models.User;
 import top.bytesc.crudstart.services.UserService;
+import top.bytesc.crudstart.utils.JwtUtil;
 import top.bytesc.crudstart.utils.Md5Util;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -40,7 +44,11 @@ public class UserController {
         if(user==null){
             return Result.error("username does not exist");
         }else if(Md5Util.getMD5String(pwd).equals(user.getPassword())){
-            return Result.success("token");
+            Map<String,Object> claims = new HashMap<>();
+            claims.put("id",user.getId());
+            claims.put("username",user.getUsername());
+            String token = JwtUtil.genToken(claims);
+            return Result.success(token);
         }else{
             return Result.error("pwd wrong");
         }
