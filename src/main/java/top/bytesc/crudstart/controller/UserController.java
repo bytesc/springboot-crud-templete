@@ -3,9 +3,7 @@ package top.bytesc.crudstart.controller;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import top.bytesc.crudstart.services.models.Result;
 import top.bytesc.crudstart.services.models.User;
 import top.bytesc.crudstart.services.UserService;
@@ -53,4 +51,13 @@ public class UserController {
             return Result.error("pwd wrong");
         }
     }
+
+    @GetMapping("/info")
+    public Result<User> userInfo(@RequestHeader(name="token") String token ){
+        Map<String,Object> map = JwtUtil.parseToken(token);
+        String username = (String) map.get("username");
+        User user = userService.findUserByName(username);
+        return Result.success(user);
+    }
+
 }
