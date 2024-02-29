@@ -3,7 +3,7 @@ package top.bytesc.crudstart.exception;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import top.bytesc.crudstart.models.Result;
+import top.bytesc.crudstart.services.models.Result;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

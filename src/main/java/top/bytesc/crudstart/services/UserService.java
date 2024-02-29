@@ -1,6 +1,6 @@
 package top.bytesc.crudstart.services;
 
-import top.bytesc.crudstart.models.User;
+import top.bytesc.crudstart.services.models.User;
 
 public interface UserService {
 

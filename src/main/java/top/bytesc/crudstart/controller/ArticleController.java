@@ -1,14 +1,9 @@
 package top.bytesc.crudstart.controller;
 
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import top.bytesc.crudstart.models.Result;
-import top.bytesc.crudstart.utils.JwtUtil;
-
-import java.util.Map;
+import top.bytesc.crudstart.services.models.Result;
 
 @RestController
 @RequestMapping("/article")

@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import top.bytesc.crudstart.models.Result;
 import top.bytesc.crudstart.utils.JwtUtil;
 
 import java.util.Map;
@@ -14,7 +13,7 @@ public class LoginChecker implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response,
-                             Object handler) throws Exception {
+                             Object handler) {
         String token = request.getHeader("token");
 
         try{

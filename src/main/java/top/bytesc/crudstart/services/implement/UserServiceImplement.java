@@ -2,8 +2,8 @@ package top.bytesc.crudstart.services.implement;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import top.bytesc.crudstart.mapper.UserMapper;
-import top.bytesc.crudstart.models.User;
+import top.bytesc.crudstart.services.mapper.UserMapper;
+import top.bytesc.crudstart.services.models.User;
 import top.bytesc.crudstart.services.UserService;
 import top.bytesc.crudstart.utils.Md5Util;
 
