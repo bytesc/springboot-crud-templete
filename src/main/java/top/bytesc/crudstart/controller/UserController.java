@@ -9,6 +9,7 @@ import top.bytesc.crudstart.services.models.User;
 import top.bytesc.crudstart.services.UserService;
 import top.bytesc.crudstart.utils.JwtUtil;
 import top.bytesc.crudstart.utils.Md5Util;
+import top.bytesc.crudstart.utils.ThreadLocalUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,7 +55,8 @@ public class UserController {
 
     @GetMapping("/info")
     public Result<User> userInfo(@RequestHeader(name="token") String token ){
-        Map<String,Object> map = JwtUtil.parseToken(token);
+//        Map<String,Object> map = JwtUtil.parseToken(token);
+        Map<String,Object> map = ThreadLocalUtil.get();
         String username = (String) map.get("username");
         User user = userService.findUserByName(username);
         return Result.success(user);
