@@ -4,8 +4,8 @@ import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import top.bytesc.crudstart.services.models.Result;
-import top.bytesc.crudstart.services.models.User;
+import top.bytesc.crudstart.models.Result;
+import top.bytesc.crudstart.models.User;
 import top.bytesc.crudstart.services.UserService;
 import top.bytesc.crudstart.utils.JwtUtil;
 import top.bytesc.crudstart.utils.Md5Util;
@@ -60,6 +60,12 @@ public class UserController {
         String username = (String) map.get("username");
         User user = userService.findUserByName(username);
         return Result.success(user);
+    }
+
+    @PostMapping("/update")
+    public Result update(@RequestBody @Validated User user){
+        userService.update(user);
+        return Result.success();
     }
 
 }

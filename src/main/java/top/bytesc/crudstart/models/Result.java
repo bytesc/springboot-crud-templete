@@ -1,4 +1,4 @@
-package top.bytesc.crudstart.services.models;
+package top.bytesc.crudstart.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
