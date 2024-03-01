@@ -16,15 +16,15 @@ public interface UserMapper {
             "values(#{username},#{md5Pwd},now(),now())")
     public void add(String username, String md5Pwd);
 
-    @Update("UPDATE user set email=#{email}, update_time=#{updateTime}, user_pic=#{userPic}"+" "+
+    @Update("UPDATE user set email=#{email},username=#{username}, update_time=#{updateTime} "+" "+
     "WHERE id=#{id}")
     public void update(User user);
 
-    @Update("UPDATE user set user_pic=#{url}"+" "+
+    @Update("UPDATE user set user_pic=#{url}, update_time=now()"+" "+
             "WHERE id=#{id}")
     public void updateUserPic(String url, Integer id);
 
-    @Update("UPDATE user set password=#{pwd}"+" "+
+    @Update("UPDATE user set password=#{pwd}, update_time=now()"+" "+
             "WHERE id=#{id}")
     public void updatePwd(String pwd, Integer id);
 }
