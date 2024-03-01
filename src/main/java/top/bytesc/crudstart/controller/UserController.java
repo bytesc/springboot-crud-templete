@@ -3,6 +3,7 @@ package top.bytesc.crudstart.controller;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import top.bytesc.crudstart.models.Result;
@@ -74,4 +75,32 @@ public class UserController {
         userService.updateUserPic(url);
         return Result.success();
     }
+
+    @PostMapping("update_pwd")
+    public Result  updatePwd(@RequestBody Map<String,String> params){
+        String oldPwd = params.get("old_pwd");
+        String newPwd = params.get("new_pwd");
+        String againPwd = params.get("again_pwd");
+        if(!StringUtils.hasLength(oldPwd) ||
+                !StringUtils.hasLength(newPwd) ||
+                !StringUtils.hasLength(againPwd) ){
+            return Result.success("密码不能为空");
+        }
+        if(!newPwd.equals(againPwd)){
+            return Result.success("两次输入密码不一致");
+        }
+
+        Map<String,Object> map = ThreadLocalUtil.get();
+        String username = (String) map.get("username");
+        User user = userService.findUserByName(username);
+        if(user==null){
+            return Result.error("username does not exist");
+        }else if(Md5Util.getMD5String(oldPwd).equals(user.getPassword())){
+            userService.updatePwd(newPwd);
+            return Result.success();
+        }else{
+            return Result.error("old_pwd wrong 原密码错误");
+        }
+    }
+
 }

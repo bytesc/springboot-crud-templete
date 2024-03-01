@@ -23,4 +23,8 @@ public interface UserMapper {
     @Update("UPDATE user set user_pic=#{url}"+" "+
             "WHERE id=#{id}")
     public void updateUserPic(String url, Integer id);
+
+    @Update("UPDATE user set password=#{pwd}"+" "+
+            "WHERE id=#{id}")
+    public void updatePwd(String pwd, Integer id);
 }

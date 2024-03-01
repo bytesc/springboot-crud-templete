@@ -11,4 +11,6 @@ public interface UserService {
     void update(User user);
 
     void updateUserPic(String url);
+
+    void updatePwd(String newPwd);
 }
