@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import top.bytesc.crudstart.models.User;
+import top.bytesc.crudstart.utils.ThreadLocalUtil;
 
 @Mapper
 public interface UserMapper {
@@ -18,4 +19,8 @@ public interface UserMapper {
     @Update("UPDATE user set email=#{email}, update_time=#{updateTime}, user_pic=#{userPic}"+" "+
     "WHERE id=#{id}")
     public void update(User user);
+
+    @Update("UPDATE user set user_pic=#{url}"+" "+
+            "WHERE id=#{id}")
+    public void updateUserPic(String url, Integer id);
 }

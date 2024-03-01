@@ -1,6 +1,7 @@
 package top.bytesc.crudstart.controller;
 
 import jakarta.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -68,4 +69,9 @@ public class UserController {
         return Result.success();
     }
 
+    @PostMapping("/update_user_pic")
+    public Result updateUserPic(@RequestParam @URL String url){
+        userService.updateUserPic(url);
+        return Result.success();
+    }
 }

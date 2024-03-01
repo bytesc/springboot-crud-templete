@@ -9,4 +9,6 @@ public interface UserService {
     void addUser(String username, String pwd);
 
     void update(User user);
+
+    void updateUserPic(String url);
 }
