@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Data //lombok
 public class Category {
+    @NotNull
     private Integer id;
     @NotNull
     @NotEmpty

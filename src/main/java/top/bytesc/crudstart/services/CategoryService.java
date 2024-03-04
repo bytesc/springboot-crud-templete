@@ -12,4 +12,6 @@ public interface CategoryService {
     List<Category> list();
 
     Category findCategoryById(Integer id);
+
+    void update(Category category);
 }

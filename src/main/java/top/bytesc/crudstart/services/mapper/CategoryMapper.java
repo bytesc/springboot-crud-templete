@@ -3,6 +3,7 @@ package top.bytesc.crudstart.services.mapper;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import top.bytesc.crudstart.models.Category;
 
 import java.util.List;
@@ -18,4 +19,8 @@ public interface CategoryMapper {
 
     @Select("select * from category where id=#{CategoryId}")
     Category findById(Integer CategoryId);
+
+    @Update("update category set category_name=#{categoryName}, update_time=now()"+" "+
+    "where id=#{id}")
+    void update(Category category);
 }

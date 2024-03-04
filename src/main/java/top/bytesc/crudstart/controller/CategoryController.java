@@ -31,4 +31,10 @@ public class CategoryController {
         Category c = categoryService.findCategoryById(id);
         return Result.success(c);
     }
+
+    @PostMapping("/update")
+    public Result update(@RequestBody @Validated Category category){
+        categoryService.update(category);
+        return Result.success();
+    }
 }
