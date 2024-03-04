@@ -14,8 +14,8 @@ import java.util.List;
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;
-    @PostMapping("/add")
-    public Result add(@RequestBody @Validated Category category){
+    @PostMapping("/add")  // 分组校验
+    public Result add(@RequestBody @Validated(Category.Add.class) Category category){
         categoryService.add(category);
         return Result.success();
     }
@@ -33,7 +33,7 @@ public class CategoryController {
     }
 
     @PostMapping("/update")
-    public Result update(@RequestBody @Validated Category category){
+    public Result update(@RequestBody @Validated(Category.Update.class) Category category){
         categoryService.update(category);
         return Result.success();
     }
