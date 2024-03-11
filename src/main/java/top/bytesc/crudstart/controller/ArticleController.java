@@ -1,6 +1,7 @@
 package top.bytesc.crudstart.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import top.bytesc.crudstart.models.Article;
 import top.bytesc.crudstart.models.Result;
@@ -27,7 +28,7 @@ public class ArticleController {
 //    }
 
     @PostMapping("/add")
-    public Result add(@RequestBody Article article){
+    public Result add(@RequestBody @Validated Article article){
         articleService.add(article);
         return Result.success();
     }

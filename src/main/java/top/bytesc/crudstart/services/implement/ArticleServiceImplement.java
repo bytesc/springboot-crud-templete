@@ -17,6 +17,8 @@ public class ArticleServiceImplement implements ArticleService {
     public void add(Article article){
         Map<String, Object> map=ThreadLocalUtil.get();
         article.setCreateUser((Integer) map.get("id"));
+        article.setState("draft");
+        System.out.println(article);
         articleMapper.add(article);
     }
 }
