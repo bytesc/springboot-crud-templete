@@ -1,31 +1,31 @@
-package top.bytesc.crudstart;
+package top.bytesc.crudstart.utils;
 
 
 import com.aliyun.oss.ClientException;
-        import com.aliyun.oss.OSS;
+import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
-        import com.aliyun.oss.OSSException;
-        import com.aliyun.oss.model.PutObjectRequest;
-        import com.aliyun.oss.model.PutObjectResult;
-        import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
+import com.aliyun.oss.OSSException;
+import com.aliyun.oss.model.PutObjectRequest;
+import com.aliyun.oss.model.PutObjectResult;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 
-public class OssTest {
+import java.io.InputStream;
 
-    public static void main(String[] args) throws Exception {
-        // Endpoint以华东1（杭州）为例，其它Region请按实际情况填写。
-        String endpoint = "https://oss-cn-beijing.aliyuncs.com";
-        // 从环境变量中获取访问凭证。运行本代码示例之前，请确保已设置环境变量OSS_ACCESS_KEY_ID和OSS_ACCESS_KEY_SECRET。
-        //EnvironmentVariableCredentialsProvider credentialsProvider = CredentialsProviderFactory.newEnvironmentVariableCredentialsProvider();
-        String ACCESS_KEY_ID=" ";
-        String ACCESS_KEY_SECRET=" ";
-        // 填写Bucket名称，例如examplebucket。
-        String bucketName = " ";
-        // 填写Object完整路径，完整路径中不能包含Bucket名称，例如exampledir/exampleobject.txt。
-        String objectName = " ";
+@Configuration
+public class AliOssUtil {
+    private static String ACCESS_KEY_ID = "";
+    private static String ACCESS_KEY_SECRET="";
+    private static String BUCKET_NAME="";
+    private static String END_POINT="https://oss-cn-beijing.aliyuncs.com";
+
+    public static String UploadFile(String objectName, InputStream in) throws Exception {
+
 
         // 创建OSSClient实例。
-        OSS ossClient = new OSSClientBuilder().build(endpoint, ACCESS_KEY_ID,ACCESS_KEY_SECRET);
+        OSS ossClient = new OSSClientBuilder().build(END_POINT, ACCESS_KEY_ID, ACCESS_KEY_SECRET);
+
+        String url = "";
 
         try {
             // 填写字符串。
@@ -34,8 +34,7 @@ public class OssTest {
             // 创建PutObjectRequest对象。
 //            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, objectName,
 //                    new ByteArrayInputStream(content.getBytes()));
-            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, objectName,
-                    new FileInputStream("C:\\Users\\RCY\\Desktop\\test_img\\Snipaste_2023-05-24_19-13-21.png"));
+            PutObjectRequest putObjectRequest = new PutObjectRequest(BUCKET_NAME, objectName, in);
             // 如果需要上传时设置存储类型和访问权限，请参考以下示例代码。
             // ObjectMetadata metadata = new ObjectMetadata();
             // metadata.setHeader(OSSHeaders.OSS_STORAGE_CLASS, StorageClass.Standard.toString());
@@ -44,6 +43,10 @@ public class OssTest {
 
             // 上传字符串。
             PutObjectResult result = ossClient.putObject(putObjectRequest);
+            url = "https://"+ BUCKET_NAME +"."+
+                    END_POINT.substring(END_POINT.lastIndexOf("/")+1)+
+                    "/"+objectName;
+
         } catch (OSSException oe) {
             System.out.println("Caught an OSSException, which means your request made it to OSS, "
                     + "but was rejected with an error response for some reason.");
@@ -61,5 +64,6 @@ public class OssTest {
                 ossClient.shutdown();
             }
         }
+        return url;
     }
 }
