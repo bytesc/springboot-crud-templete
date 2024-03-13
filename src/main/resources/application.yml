@@ -12,3 +12,8 @@ mybatis:
 server:
   port: 9090
 
+#oss:
+#  key-id:
+#  key-secret:
+#  bucket-name:
+#  end-point: 

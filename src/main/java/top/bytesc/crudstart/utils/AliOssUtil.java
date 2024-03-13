@@ -7,20 +7,20 @@ import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.PutObjectResult;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import top.bytesc.crudstart.config.AliOssConfig;
 
 import java.io.InputStream;
 
 @Configuration
 public class AliOssUtil {
-    private static String ACCESS_KEY_ID = "";
-    private static String ACCESS_KEY_SECRET="";
-    private static String BUCKET_NAME="";
-    private static String END_POINT="https://oss-cn-beijing.aliyuncs.com";
+
 
     public static String UploadFile(String objectName, InputStream in) throws Exception {
-
+        final String ACCESS_KEY_ID = AliOssConfig.keyId;
+        final String ACCESS_KEY_SECRET= AliOssConfig.keySecret;
+        final String BUCKET_NAME=AliOssConfig.bucketName;
+        final String END_POINT=AliOssConfig.endPoint;
 
         // 创建OSSClient实例。
         OSS ossClient = new OSSClientBuilder().build(END_POINT, ACCESS_KEY_ID, ACCESS_KEY_SECRET);
