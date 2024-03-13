@@ -3,6 +3,8 @@ package top.bytesc.crudstart.controller;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,7 @@ import top.bytesc.crudstart.utils.ThreadLocalUtil;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/user")
@@ -22,6 +25,9 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @PostMapping("/add")
     public Result add(@Pattern(regexp="^\\S{5,16}$") String username,
@@ -49,6 +55,12 @@ public class UserController {
             claims.put("id",user.getId());
             claims.put("username",user.getUsername());
             String token = JwtUtil.genToken(claims);
+
+            //token 存入redis
+            stringRedisTemplate.opsForValue();
+            ValueOperations<String,String> operations = stringRedisTemplate.opsForValue();
+            operations.set(token,token,1, TimeUnit.HOURS);
+
             return Result.success(token);
         }else{
             return Result.error("pwd wrong");
@@ -77,7 +89,8 @@ public class UserController {
     }
 
     @PostMapping("update_pwd")
-    public Result  updatePwd(@RequestBody Map<String,String> params){
+    public Result  updatePwd(@RequestBody Map<String,String> params,
+                             @RequestHeader String token){
         String oldPwd = params.get("old_pwd");
         String newPwd = params.get("new_pwd");
         String againPwd = params.get("again_pwd");
@@ -97,6 +110,10 @@ public class UserController {
             return Result.error("username does not exist");
         }else if(Md5Util.getMD5String(oldPwd).equals(user.getPassword())){
             userService.updatePwd(newPwd);
+            //删除redis里的token
+            ValueOperations<String,String> operations =stringRedisTemplate.opsForValue();
+            operations.getAndDelete(token);
+//            operations.getOperations().delete(token);
             return Result.success();
         }else{
             return Result.error("old_pwd wrong 原密码错误");
