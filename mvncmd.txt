@@ -5,6 +5,7 @@ mvn archetype:generate -DgroupId=com.example -DartifactId=myapp -DarchetypeArtif
 mvn spring-boot:run
 
 mvn package
+mvn package -DskipTests
  java -jar .\helloworld-1.0-SNAPSHOT.jar
 
 
