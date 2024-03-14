@@ -89,6 +89,9 @@ mvn spring-boot:run
 ```
 
 
+## 接口说明
+
+./posyman-api/spring.postman_collection.json
 
 
 
