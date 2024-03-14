@@ -2,7 +2,7 @@
 
 ✨ **基于 Java SpringBoot3, Mysql, Redis 的信息管理系统**：实现信息的增删改查，文件的对象存储，权限管理，令牌的签验。
 
-[个人网站：www.bytesc.top](http://www.bytesc.top) 含轻量化版本在线演示
+[个人网站：www.bytesc.top](http://www.bytesc.top) 
 
 [个人博客：blog.bytesc.top](http://blog.bytesc.top)
 
